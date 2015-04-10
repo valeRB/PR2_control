@@ -32,12 +32,8 @@
 # ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 #
-# Author: Acorn Pooley
+# Author: Valeria Reynaga
 
-## BEGIN_SUB_TUTORIAL imports
-##
-## To use the python interface to move_group, import the moveit_commander
-## module.  We also import rospy and some messages that we will use.
 import sys
 import copy
 import rospy
@@ -50,13 +46,8 @@ from std_msgs.msg import String
 global group_l, group_r
 global cont1, what
 
-def move_group_python_interface_tutorial():
-  ## BEGIN_TUTORIAL
-  ##
-  ## Setup
-  ## ^^^^^
-  ## CALL_SUB_TUTORIAL imports
-  ##
+def move_group_python_interface():
+
   ## First initialize moveit_commander and rospy.
   print "============ Starting tutorial setup"
   moveit_commander.roscpp_initialize(sys.argv)
@@ -71,13 +62,6 @@ def move_group_python_interface_tutorial():
   ## to the world surrounding the robot.
   scene = moveit_commander.PlanningSceneInterface()
 
-  ## Instantiate a MoveGroupCommander object.  This object is an interface
-  ## to one group of joints.  In this case the group is the joints in the left
-  ## arm.  This interface can be used to plan and execute motions on the left
-  ## arm.
-  #group = moveit_commander.MoveGroupCommander("left_arm")
-
-
   ## We create this DisplayTrajectory publisher which is used below to publish
   ## trajectories for RVIZ to visualize.
   display_trajectory_publisher = rospy.Publisher(
@@ -87,16 +71,16 @@ def move_group_python_interface_tutorial():
   ## Wait for RVIZ to initialize. This sleep is ONLY to allow Rviz to come up.
   #print "============ Waiting for RVIZ..."
   #rospy.sleep(10)
-  print "============ Starting tutorial "
+
 
   ## Getting Basic Information
   ## ^^^^^^^^^^^^^^^^^^^^^^^^^
   ##
   ## We can get the name of the reference frame for this robot
-  print "============ Left Reference frame: %s" % group_l.get_planning_frame()
+  #print "============ Left Reference frame: %s" % group_l.get_planning_frame()
 
   ## We can also print the name of the end-effector link for this group
-  print "============ Left End effector: %s" % group_l.get_end_effector_link()
+  #print "============ Left End effector: %s" % group_l.get_end_effector_link()
 
   ## We can get a list of all the groups in the robot
   #print "============ Robot Groups:"
@@ -106,9 +90,7 @@ def move_group_python_interface_tutorial():
   ## robot.
   #print "============ Printing robot state"
   #print robot.get_current_state()
-  #print "============ Printing rpy:"
-  #print robot.get_current_rpy(end_effector_link = conversions.msg_to_string(endgroup.get_end_effector_link()))
-
+  
   print "============"
 
 
@@ -140,28 +122,9 @@ def move_group_python_interface_tutorial():
   print "============ Waiting while RVIZ displays plan1..."
   rospy.sleep(2)
 
-
-  ## You can ask RVIZ to visualize a plan (aka trajectory) for you.  But the
-  ## group.plan() method does this automatically so this is not that useful
-  ## here (it just displays the same trajectory again).
-
-  ## Moving to a pose goal
-  ## ^^^^^^^^^^^^^^^^^^^^^
-  ##
-  ## Moving to a pose goal is similar to the step above
-  ## except we now use the go() function. Note that
-  ## the pose goal we had set earlier is still active 
-  ## and so the robot will try to move to that goal. We will
-  ## not use that function in this tutorial since it is 
-  ## a blocking function and requires a controller to be active
-  ## and report success on execution of a trajectory.
-
   # Uncomment below line when working with a real robot
   # group.go(wait=True)
   
-
- 
-
   ## Then, we will get the current set of joint values for the group
   group_variable_values_r = group_r.get_current_joint_values()
   group_variable_values_l = group_l.get_current_joint_values()
@@ -170,7 +133,6 @@ def move_group_python_interface_tutorial():
 
   ## Planning to a joint-space goal 
   ## ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  ##
   ## Let's set a joint space goal and move towards it. 
   ## First, we will clear the pose target we had just set.
   group_r.clear_pose_targets()
@@ -191,15 +153,6 @@ def move_group_python_interface_tutorial():
       else:
           print "Invalid option, nothing done"
           pass
-      ## Now, let's modify one of the joints, plan to the new joint
-      ## space goal and visualize the plan
-##      group_variable_values[0] = 0.0
-##      group_variable_values[1] = 0.2 #0.99
-##      group_variable_values[2] = 0.0
-##      group_variable_values[3] = -1.23 #-0.54
-##      group_variable_values[4] = 0.0
-##      group_variable_values[5] = -0.48
-##      group_variable_values[6] = 1.66
     
 ##  group.set_joint_value_target(group_variable_values)
 ##  for x in range(0, 3):
@@ -324,7 +277,7 @@ if __name__=='__main__':
     #what = 0
     group_l = moveit_commander.MoveGroupCommander("left_arm")
     group_r = moveit_commander.MoveGroupCommander("right_arm")
-    move_group_python_interface_tutorial()
+    move_group_python_interface()
 
   except rospy.ROSInterruptException:
     pass
