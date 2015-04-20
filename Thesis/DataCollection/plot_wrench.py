@@ -52,7 +52,7 @@ if __name__=='__main__':
 ##        r_torque_z = np.linspace(0,100)
          
         name_bag=raw_input("Copy the name of the bag here \n")
-        bag = rosbag.Bag(name_bag+'.bag')
+        bag = rosbag.Bag('../Bags Sunday/'+name_bag+'.bag')
         (l_time, l_force_x, l_force_y, l_force_z, l_torque_x,
                          l_torque_y, l_torque_z)= read_data(bag, 'l')
         (r_time, r_force_x, r_force_y, r_force_z, r_torque_x,
