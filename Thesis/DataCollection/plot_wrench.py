@@ -92,8 +92,8 @@ if __name__=='__main__':
     try:
          
         name_bag=raw_input("Copy the name of the bag here \n")
-##        bag = rosbag.Bag('BagsSunday/'+name_bag+'.bag')
-        bag = rosbag.Bag(name_bag+'.bag')
+        bag = rosbag.Bag('BagsSunday/'+name_bag+'.bag')
+##        bag = rosbag.Bag(name_bag+'.bag')
 ##        (l_time, l_force_x, l_force_y, l_force_z, l_torque_x,
 ##                         l_torque_y, l_torque_z)= read_data(bag, 'l')
         (r_time, r_force_x, r_force_y, r_force_z, r_torque_x, r_torque_y, r_torque_z)= read_data(bag, 'r')
@@ -128,44 +128,47 @@ if __name__=='__main__':
 ##        plot(r_time, r_torque_z), title('R Torque Z'), ylabel('[Nm]')
 ##                
         # Plot Right Arm info
-        figure('Right Arm - Bias Removed')
-        subplot(231)
-        plot(r_time,  r_Fx), title('R Force X'), ylabel('[N]')
-
-        subplot(232)
-        plot(r_time, r_Fy), title('R Force Y'), ylabel('[N]')
-
-        subplot(233)
-        plot(r_time, r_Fz), title('R Force Z'), ylabel('[N]')
-
-        subplot(234)
-        plot(r_time, r_Tx), title('R Torque X'), ylabel('[Nm]')
-
-        subplot(235)
-        plot(r_time, r_Ty), title('R Torque Y'), ylabel('[Nm]')
-
-        subplot(236)
-        plot(r_time, r_Tz), title('R Torque Z'), ylabel('[Nm]')
+##        figure('Right Arm - Bias Removed')
+##        subplot(231)
+##        plot(r_time,  r_Fx), title('R Force X'), ylabel('[N]')
+##
+##        subplot(232)
+##        plot(r_time, r_Fy), title('R Force Y'), ylabel('[N]')
+##
+##        subplot(233)
+##        plot(r_time, r_Fz), title('R Force Z'), ylabel('[N]')
+##
+##        subplot(234)
+##        plot(r_time, r_Tx), title('R Torque X'), ylabel('[Nm]')
+##
+##        subplot(235)
+##        plot(r_time, r_Ty), title('R Torque Y'), ylabel('[Nm]')
+##
+##        subplot(236)
+##        plot(r_time, r_Tz), title('R Torque Z'), ylabel('[Nm]')
 
                 # Plot Right Arm info
         figure('Right Arm - Transformed Data')
-        subplot(231)
+        subplot(321)
         plot(r_time, r_tf_Fx), title('R Force X'), ylabel('[N]')
 
-        subplot(232)
+        subplot(323)
         plot(r_time, r_tf_Fy), title('R Force Y'), ylabel('[N]')
 
-        subplot(233)
+        subplot(325)
         plot(r_time, r_Fz), title('R Force Z'), ylabel('[N]')
 
-        subplot(234)
+        subplot(322)
         plot(r_time, r_tf_Tx), title('R Torque X'), ylabel('[Nm]')
 
-        subplot(235)
+        subplot(324)
         plot(r_time, r_tf_Ty), title('R Torque Y'), ylabel('[Nm]')
 
-        subplot(236)
+        subplot(326)
         plot(r_time, r_Tz), title('R Torque Z'), ylabel('[Nm]')
+
+        figure('Right Arm - Fz; use: check where changes happen')
+        plot(r_time, r_Fz), title('R Force Z'), ylabel('[N]')
 
 #        figure("Torque")
 ##        subplot (211)

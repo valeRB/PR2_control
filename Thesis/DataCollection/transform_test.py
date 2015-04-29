@@ -6,6 +6,7 @@ import math
 #from tf.transformations import euler_from_quaternion
 from geometry_msgs.msg import WrenchStamped
 import numpy as np
+from std_srvs.srv import Empty
 
 alpha = 1.222
 pub_l = rospy.Publisher("/ft_transformed/lef_arm",WrenchStamped)
@@ -151,11 +152,20 @@ def transform_test():
     rospy.init_node('transform_test', anonymous=True)
     
     rospy.Subscriber("/ft/r_gripper_motor", WrenchStamped, callback_right_arm)
+    start_client()
 ##    rospy.Subscriber("/ft/l_gripper_motor", WrenchStamped, callback_left_arm)
     ### Test left callback function with right arm topic
     #rospy.Subscriber("/ft/r_gripper_motor", WrenchStamped, callback_left_arm)
     
     rospy.spin()
+
+def start_client():
+    rospy.wait_for_service('start')
+    try:
+        start_estimation = rospy.ServiceProxy('start', Empty)
+        start_estimation()
+    except rospy.ServiceException, e:
+        print "Service call failed: %s"%e
     
 if __name__ == '__main__':
     
