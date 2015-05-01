@@ -92,23 +92,25 @@ if __name__=='__main__':
     try:
          
         name_bag=raw_input("Copy the name of the bag here \n")
-        bag = rosbag.Bag('BagsSunday/'+name_bag+'.bag')
-##        bag = rosbag.Bag(name_bag+'.bag')
-##        (l_time, l_force_x, l_force_y, l_force_z, l_torque_x,
-##                         l_torque_y, l_torque_z)= read_data(bag, 'l')
-        (r_time, r_force_x, r_force_y, r_force_z, r_torque_x, r_torque_y, r_torque_z)= read_data(bag, 'r')
+##        bag = rosbag.Bag('BagsSunday/'+name_bag+'.bag')
+##        bag = rosbag.Bag('../../../BagsMay1/'+name_bag+'.bag')
+        bag = rosbag.Bag(name_bag+'.bag')
+        (l_time, l_force_x, l_force_y, l_force_z, l_torque_x, l_torque_y, l_torque_z)= read_data(bag, 'r')
+##        (r_time, r_force_x, r_force_y, r_force_z, r_torque_x, r_torque_y, r_torque_z)= read_data(bag, 'r')
         # Get bias for both arms in sensor
-        (r_Fx, r_Fy, r_Fz, r_Tx, r_Ty, r_Tz) = remove_bias(r_force_x, r_force_y, r_force_z, r_torque_x, r_torque_y, r_torque_z)
+##        (r_Fx, r_Fy, r_Fz, r_Tx, r_Ty, r_Tz) = remove_bias(r_force_x, r_force_y, r_force_z, r_torque_x, r_torque_y, r_torque_z)
+        (l_Fx, l_Fy, l_Fz, l_Tx, l_Ty, l_Tz) = remove_bias(l_force_x, l_force_y, l_force_z, l_torque_x, l_torque_y, l_torque_z)
         ### remove_bias for Left arm
-        (r_tf_Fx, r_tf_Fy, r_tf_Tx, r_tf_Ty) = transform_vectors(r_Fx, r_Fy, r_Tx, r_Ty)
+##        (r_tf_Fx, r_tf_Fy, r_tf_Tx, r_tf_Ty) = transform_vectors(r_Fx, r_Fy, r_Tx, r_Ty)
+        (l_tf_Fx, l_tf_Fy, l_tf_Tx, l_tf_Ty) = transform_vectors(l_Fx, l_Fy, l_Tx, l_Ty)
         raw_input("Press any key to see the plots \n")
         # Plot data
-##        l_time = l_time - l_time[0]
-        r_time = r_time - r_time[0]
+        l_time = l_time - l_time[0]
+##        r_time = r_time - r_time[0]
 
         
         # Plot Right Arm info
-##        figure('Right Arm - Original Data')
+.##        figure('Right Arm - Original Data')
 ##        subplot(231)
 ##        plot(r_time, r_force_x), title('R Force X'), ylabel('[N]')
 ##
@@ -127,7 +129,7 @@ if __name__=='__main__':
 ##        subplot(236)
 ##        plot(r_time, r_torque_z), title('R Torque Z'), ylabel('[Nm]')
 ##                
-        # Plot Right Arm info
+##        # Plot Right Arm info
 ##        figure('Right Arm - Bias Removed')
 ##        subplot(231)
 ##        plot(r_time,  r_Fx), title('R Force X'), ylabel('[N]')
@@ -148,72 +150,51 @@ if __name__=='__main__':
 ##        plot(r_time, r_Tz), title('R Torque Z'), ylabel('[Nm]')
 
                 # Plot Right Arm info
-        figure('Right Arm - Transformed Data')
+##        figure('Right Arm - Transformed Data')
+##        subplot(321)
+##        plot(r_time, r_tf_Fx), title('R Force X'), ylabel('[N]')
+##
+##        subplot(323)
+##        plot(r_time, r_tf_Fy), title('R Force Y'), ylabel('[N]')
+##
+##        subplot(325)
+##        plot(r_time, r_Fz), title('R Force Z'), ylabel('[N]')
+##
+##        subplot(322)
+##        plot(r_time, r_tf_Tx), title('R Torque X'), ylabel('[Nm]')
+##
+##        subplot(324)
+##        plot(r_time, r_tf_Ty), title('R Torque Y'), ylabel('[Nm]')
+##
+##        subplot(326)
+##        plot(r_time, r_Tz), title('R Torque Z'), ylabel('[Nm]')
+##
+##        figure('Right Arm - Fz; use: check where changes happen')
+##        plot(r_time, r_Fz), title('R Force Z'), ylabel('[N]')
+
+                # Plot Left Arm info
+        figure('Left Arm - Transformed Data')
         subplot(321)
-        plot(r_time, r_tf_Fx), title('R Force X'), ylabel('[N]')
+        plot(l_time, l_tf_Fx), title('L Force X'), ylabel('[N]')
 
         subplot(323)
-        plot(r_time, r_tf_Fy), title('R Force Y'), ylabel('[N]')
+        plot(l_time, l_tf_Fy), title('L Force Y'), ylabel('[N]')
 
         subplot(325)
-        plot(r_time, r_Fz), title('R Force Z'), ylabel('[N]')
+        plot(l_time, l_Fz), title('L Force Z'), ylabel('[N]')
 
         subplot(322)
-        plot(r_time, r_tf_Tx), title('R Torque X'), ylabel('[Nm]')
+        plot(l_time, l_tf_Tx), title('L Torque X'), ylabel('[Nm]')
 
         subplot(324)
-        plot(r_time, r_tf_Ty), title('R Torque Y'), ylabel('[Nm]')
+        plot(l_time, l_tf_Ty), title('L Torque Y'), ylabel('[Nm]')
 
         subplot(326)
-        plot(r_time, r_Tz), title('R Torque Z'), ylabel('[Nm]')
+        plot(l_time, l_Tz), title('L Torque Z'), ylabel('[Nm]')
 
-        figure('Right Arm - Fz; use: check where changes happen')
-        plot(r_time, r_Fz), title('R Force Z'), ylabel('[N]')
-
-#        figure("Torque")
-##        subplot (211)
-##        plot(r_time, r_Ty), title('R Torque Z'), ylabel('[Nm]')
-##        subplot (212)
-##        plot(r_time, r_torque_y), title('R Torque Z'), ylabel('[Nm]')
-##        figure('Left Arm')
+        figure('Left Arm - Fz; use: check where changes happen')
+        plot(l_time, l_Fz), title('L Force Z'), ylabel('[N]')
 ##        
-##        subplot(231)
-##        plot(l_time, l_force_x), title('L Force X'), ylabel('[N]')
-##
-##        subplot(232)
-##        plot(l_time, l_force_y), title('L Force Y'), ylabel('[N]')
-##
-##        subplot(233)
-##        plot(l_time, l_force_z), title('L Force Z'), ylabel('[N]')
-##
-##        subplot(234)
-##        plot(l_time, l_torque_x), title('L Torque X'), ylabel('[Nm]')
-##
-##        subplot(235)
-##        plot(l_time, l_torque_y), title('L Torque Y'), ylabel('[Nm]')
-##
-##        subplot(236)
-##        plot(l_time, l_torque_z), title('L Torque Z'), ylabel('[Nm]')
-##
-##        figure('Left Arm - bias')
-##        subplot(231)
-##        plot(l_time, l_force_x - l_bias_Fx), title('L Force X'), ylabel('[N]')
-##
-##        subplot(232)
-##        plot(l_time, l_force_y - l_bias_Fy), title('L Force Y'), ylabel('[N]')
-##
-##        subplot(233)
-##        plot(l_time, l_force_z - l_bias_Fz), title('L Force Z'), ylabel('[N]')
-##
-##        subplot(234)
-##        plot(l_time, l_torque_x), title('L Torque X'), ylabel('[Nm]')
-##
-##        subplot(235)
-##        plot(l_time, l_torque_y), title('L Torque Y'), ylabel('[Nm]')
-##
-##        subplot(236)
-##        plot(l_time, l_torque_z), title('L Torque Z'), ylabel('[Nm]')
-        
         show()
 
     except rospy.ROSInterruptException:
